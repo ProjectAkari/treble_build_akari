@@ -10,12 +10,12 @@ if [ -z "$USER" ];then
 fi
 export LC_ALL=C
 
-manifest_url="https://android.googlesource.com/platform/manifest"
-aosp="android-13.0.0_r14"
+manifest_url="https://github.com/ProjectAkari/akari_manifest"
+aosp="wota-13"
 phh="android-13.0"
 
 build_target="$1"
-manifest_url="https://android.googlesource.com/platform/manifest"
+manifest_url="https://github.com/ProjectAkari/akari_manifest"
 
 repo init -u "$manifest_url" -b $aosp --depth=1
 if [ -d .repo/local_manifests ] ;then
@@ -48,8 +48,5 @@ cp patches.zip release/$rom_fp/patches-for-developers.zip
     git clone https://github.com/phhusson/vendor_vndk -b android-10.0
 )
 
-buildVariant treble_arm64_bvS-userdebug td-arm64-ab-vanilla
-( cd sas-creator; bash lite-adapter.sh 64; xz -c s.img -T0 > ../release/$rom_fp/system-td-arm64-ab-vndklite-vanilla.img.xz )
-
-buildVariant treble_a64_bvS-userdebug td-arm32_binder64-ab-vanilla
+buildVariant treble_a64_bvN-userdebug td-arm32_binder64-ab-vanilla
 ( cd sas-creator; bash lite-adapter.sh 32; xz -c s.img -T0 > ../release/$rom_fp/system-td-arm32_binder64-ab-vndklite-vanilla.img.xz )
