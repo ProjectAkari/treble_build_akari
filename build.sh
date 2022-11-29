@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rom_fp="$(date +%y%m%d)"
+rom_fp="akari-$(date +%y%m%d)"
 originFolder="$(dirname "$(readlink -f -- "$0")")"
 mkdir -p release/$rom_fp/
 set -e
@@ -10,12 +10,12 @@ if [ -z "$USER" ];then
 fi
 export LC_ALL=C
 
-manifest_url="https://github.com/ProjectAkari/akari_manifest"
-aosp="wota-13"
+manifest_url="https://github.com/ProjectAkari/akari_manifest.git"
+aosp="tsuru"
 phh="android-13.0"
 
 build_target="$1"
-manifest_url="https://github.com/ProjectAkari/akari_manifest"
+manifest_url="https://github.com/ProjectAkari/akari_manifest.git"
 
 repo init -u "$manifest_url" -b $aosp --depth=1
 if [ -d .repo/local_manifests ] ;then
@@ -34,7 +34,7 @@ buildVariant() {
 	make RELAX_USES_LIBRARY_CHECK=true BUILD_NUMBER=$rom_fp installclean
 	make RELAX_USES_LIBRARY_CHECK=true BUILD_NUMBER=$rom_fp -j8 systemimage
 	make RELAX_USES_LIBRARY_CHECK=true BUILD_NUMBER=$rom_fp vndk-test-sepolicy
-	xz -c $OUT/system.img -T0 > release/$rom_fp/system-${2}.img.xz
+	xz -c $OUT/system.img -T0 > release/$rom_fp/ProjectAkari-COMMUNITY-a64-bvN-vanilla.img.xz
 }
 
 repo manifest -r > release/$rom_fp/manifest.xml
@@ -49,4 +49,4 @@ cp patches.zip release/$rom_fp/patches-for-developers.zip
 )
 
 buildVariant treble_a64_bvN-userdebug td-arm32_binder64-ab-vanilla
-( cd sas-creator; bash lite-adapter.sh 32; xz -c s.img -T0 > ../release/$rom_fp/system-td-arm32_binder64-ab-vndklite-vanilla.img.xz )
+( cd sas-creator; bash lite-adapter.sh 32; xz -c s.img -T0 > ../release/$rom_fp/ProjectAkari-COMMUNITY-a64-bvN-vndklite-vanilla.img.xz )
